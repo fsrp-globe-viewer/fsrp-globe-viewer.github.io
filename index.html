@@ -23,7 +23,7 @@
       </select>
     </label>
     <label id="fileLabel">Map Image: <input type="file" id="mapInput" accept="image/*"></label>
-    <label>Planet Radius: <input type="number" id="radiusInput" value="5100" style="width:6em;"></label>
+    <label>Planet Radius (km): <input type="number" id="radiusInput" value="5100" style="width:6em;"></label>
     <span id="info">Click two points on the map.</span>
   </div>
   <div id="container">
@@ -125,7 +125,7 @@
         const d = greatCircleDistance(c1, c2, R);
         drawGreatCircle(c1, c2);
         updateGlobeArc(c1, c2);
-        info.textContent = `Distance: ${d.toFixed(2)} units`;
+        info.textContent = `Distance: ${d.toFixed(2)} km`;
         clicks = [];
       }
     });
