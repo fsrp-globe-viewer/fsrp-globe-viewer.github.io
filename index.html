@@ -23,7 +23,7 @@
       </select>
     </label>
     <label id="fileLabel">Map Image: <input type="file" id="mapInput" accept="image/*"></label>
-    <label>Planet Radius: <input type="number" id="radiusInput" value="6371" style="width:6em;"></label>
+    <label>Planet Radius: <input type="number" id="radiusInput" value="5100" style="width:6em;"></label>
     <span id="info">Click two points on the map.</span>
   </div>
   <div id="container">
@@ -40,8 +40,8 @@
 
     // Presets: adjust image paths and radii as needed
     const presets = {
-      Flusion: { radius: 5100, image: 'flusion.jpg' },
-      Xenon: { radius: 5000, image: '-flusion.jpg' }
+      Flusion: { radius: 5100, image: 'https://fsrp-globe-viewer.github.io/flusion.jpg' },
+      Xenon: { radius: 1544, image: 'https://fsrp-globe-viewer.github.io/xenon.jpg' }
     };
 
     const select = document.getElementById('planetSelect');
@@ -64,21 +64,13 @@
         const { radius, image } = presets[val];
         radiusInput.value = radius;
         radiusInput.disabled = true;
-        fetch(image)
-          .then(res => {
-            if (!res.ok) throw new Error('HTTP ${res.status}');
-            return res.blob();
-          })
-          .then(blob => {
-            const url = URL.createObjectURL(blob);
-            img.onload = () => {
-              canvas.width = img.width();
-              canvas.height = img.height();
-              ctx.drawImage(img, 0, 0);
-              initGlobe(url);
-              info.textContent = 'Preset map loaded.';
-            }
-          })
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          initGlobe(image);
+          info.textContent = `Loaded ${val}: radius ${radius}`;
+        };
         img.onerror = e => err('Preset load error', e);
         img.src = image;
         fileLabel.style.display = 'none';
@@ -94,7 +86,6 @@
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
         initGlobe(url);
-        console.log(url);
         info.textContent = 'Custom map loaded.';
       };
       img.onerror = e => err('Map load error', e);
@@ -204,7 +195,11 @@
       const geom = new THREE.SphereGeometry(1, 64, 64);
       const mat = new THREE.MeshBasicMaterial({ color: 0x888888 });
       globe = new THREE.Mesh(geom, mat); scene.add(globe);
-      new THREE.TextureLoader().load(
+
+      const loader = new THREE.TextureLoader();
+      // loader.setCrossOrigin('');
+
+      loader.load(
         imageURL,
         tex => { log('Texture loaded'); globe.material.map = tex; globe.material.needsUpdate = true; },
         undefined,
