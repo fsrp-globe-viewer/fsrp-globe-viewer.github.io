@@ -34,6 +34,10 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      select.dispatchEvent(new Event('change'));
+    });
+    
     const tag = '[GreatCircleMap]';
     const log = (...args) => console.log(tag, ...args);
     const err = (...args) => console.error(tag, ...args);
