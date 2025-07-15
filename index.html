@@ -174,7 +174,8 @@
       const A = latLonToCartesian(a.lat, a.lon);
       const B = latLonToCartesian(b.lat, b.lon);
       const θ = Math.acos(Math.max(-1, Math.min(1, A.dot(B))));
-      ctx.strokeStyle = 'cyan'; ctx.lineWidth = 2;
+      ctx.strokeStyle = 'red'
+      ctx.lineWidth = 5;
       ctx.beginPath();
       let lastPx = null;
       for (let i = 0; i <= 128; i++) {
@@ -251,7 +252,7 @@
         pts.push(A.clone().multiplyScalar(fA).add(B.clone().multiplyScalar(fB)).normalize());
       }
       const geom = new THREE.BufferGeometry().setFromPoints(pts);
-      const matLine = new THREE.LineBasicMaterial({ color: 0x00ffff });
+      const matLine = new THREE.LineBasicMaterial({ color: 0xff0000 });
       arcLine = new THREE.Line(geom, matLine);
       scene.add(arcLine);
     }
